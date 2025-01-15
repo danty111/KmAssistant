@@ -157,6 +157,7 @@ class getVrs():
                     break
                 except Exception as e :
                     raise Exception("缺少数据",self.headers["title"],e)
+
     def get_demand_id(self,text):
 
         """
