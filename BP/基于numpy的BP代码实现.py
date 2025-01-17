@@ -1,6 +1,6 @@
 """
-钱箱传播 + 反向传播
-bs/N： 一般用来表示批次的打搅，也就是一个批次中有多少的样本
+前向传播 + 反向传播
+bs/N： 一般用来表示批次的大小，也就是一个批次中有多少的样本
 """
 import sys
 import numpy as np
@@ -66,7 +66,7 @@ class BPNeuralNetwork:
             delta2 = (self.layer2_act - y) * self.sigmoid_derivative(self.layer2_act)
             w2_grad = np.dot(self.layer1_act.T, delta2)
             b2_grad = np.sum(delta2, axis=0)
-            
+           
             delta1 = np.dot(delta2, self.w2.T) * self.sigmoid_derivative(self.layer1_act)
             w1_grad = np.dot(self.layer0.T, delta1)
             b1_grad = np.sum(delta1, axis=0)
@@ -121,9 +121,13 @@ class BPNeuralNetwork:
         """评估模型"""
         predictions = self.predict(x)
         loss = 0.5 * np.sum((predictions - y) ** 2)
+        mse = np.mean((predictions - y) ** 2)
+        mae = np.mean(np.abs(predictions - y))
         return {
             'loss': loss,
-            'predictions': predictions
+            'predictions': predictions,
+            'mse': mse,
+            'mae': mae
         }
 
     def plot_training_history(self):
